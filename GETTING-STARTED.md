@@ -1,47 +1,28 @@
-# Publish this new repository to GitHub
+# Maintain this Identity Recon portfolio
 
-This package is intentionally separate from existing SimplifyIAM, Factory Zero Trust IAM, and older Cybernoia repositories. **It does not include a Git repository or connect to your GitHub account automatically.**
+This repository is already published to GitHub. Keep it focused on engineering outcomes, evidence, risks, and decisions—not copied course instructions.
 
-## Quick start (Mac terminal)
+## Document each milestone
 
-1. Unzip the downloaded package and open Terminal in the extracted `identity-recon-security-lab` folder.
-2. Review `README.md` and the two Checkpoint 2 reports before publishing.
-3. Create a **new private** GitHub repository called `identity-recon-security-lab`. Do not check the GitHub boxes to add a README or `.gitignore` (they are in this package).
-4. In Terminal, run:
+1. Add a concise implementation report under `reports/`.
+2. Save useful redacted screenshots under `evidence/checkpoint-XX/` and link them from the report.
+3. Add reusable KQL and other safe artifacts under `queries/`.
+4. Update the progress table in the root `README.md`.
+5. Create CISO-style executive summaries for major findings or decisions, not every minor exercise.
 
-```bash
-git init
-git add .
-git commit -m "Initial IAM Identity Recon portfolio and Checkpoint 2 reports"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/identity-recon-security-lab.git
-git push -u origin main
-```
+## Current milestone
 
-Replace `YOUR_USERNAME` with your own GitHub username. GitHub may ask you to authenticate with a credential manager, personal access token or SSH.
+Checkpoint 2 — Range Setup: [Technical report](reports/2026-11-08-checkpoint-02-technical.md), [Executive update](reports/2026-11-08-checkpoint-02-ciso.md), [Evidence](evidence/checkpoint-02/).
 
-### GitHub CLI alternative (if `gh` is installed and authenticated)
+November 8, 2026 validation screenshots show 122 sign-in events and 29 audit events in the queried 24-hour window. Complete log coverage and Sentinel detection rules remain untested.
 
-Run these commands **instead of steps 3–4**:
+## Apply future changes from a local clone
 
 ```bash
-git init
-git add .
-git commit -m "Initial IAM Identity Recon portfolio and Checkpoint 2 reports"
-git branch -M main
-gh repo create identity-recon-security-lab --private --source=. --remote=origin --push
+git status
+git add README.md reports/ architecture/ evidence/ queries/
+git commit -m "docs: add IAM milestone evidence"
+git push origin main
 ```
 
-To publish later, change the GitHub repository visibility only after sanitizing evidence and reviewing all repository files.
-
-## Add your next milestone
-
-When you finish a major checkpoint, add a technical report under `reports/`, a short executive summary only if the risk or decision warrants one, and supporting queries or redacted evidence. Then add a single line to the README progress table.
-
-```bash
-git add .
-git commit -m "docs: report checkpoint 3 lab results"
-git push
-```
-
-Do not paste the course's full lesson text into the public project. Keep personal learning notes separately.
+Inspect `git status` and review all files for secrets, credentials, and unredacted identifiers before committing. Changes can also be made using GitHub's web editor.

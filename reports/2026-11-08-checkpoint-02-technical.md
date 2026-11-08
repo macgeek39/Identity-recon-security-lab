@@ -4,7 +4,7 @@
 **Author:** Taiwei Ko  
 **Date:** November 8, 2026  
 **Environment:** Authorized, isolated training lab  
-**Status:** Checkpoint reported complete; supporting evidence 
+**Status:** Range Setup complete; sign-in and audit log ingestion validated with dated screenshots (November 8, 2026). Detection-rule effectiveness untested.
 
 ## 1. Objective
 
@@ -36,16 +36,19 @@ flowchart TD
 
 ## 4. Validation plan and evidence
 
-The owner reported completing Checkpoint 2. The following **verification artifacts have not yet been supplied for this report**; do not mark them independently verified until captured.
+Seven sanitized screenshots are attached. Two dated KQL results confirm nonzero events in the selected workspace during the test window.
 
-| Test | Evidence to save | Verification status |
+| Test | Evidence | Finding |
 |---|---|---|
-| Tenant ready | Sanitized Entra Overview screenshot |  Screenshot attached |
-| Workspace deployed | Log Analytics workspace Overview screenshot |  Screenshot attached |
-| Sentinel connected | Microsoft Sentinel workspace view |  Screenshot attached |
-| Diagnostic routing saved | Entra diagnostic settings showing destination and categories |  Screenshot attached |
-| Sign-in records arriving | Dated `SigninLogs` query with non-empty results |  Screenshot attached |
-| Audit records arriving | Dated `AuditLogs` query with non-empty results |  Screenshot attached |
+| Entra tenant | [01 — Tenant overview](../evidence/checkpoint-02/01-entra-tenant.png) | Lab tenant and P2 license visible |
+| Log Analytics | [02 — Workspace list](../evidence/checkpoint-02/02-log-analytics-workspace.png) | Workspace resources visible |
+| Microsoft Sentinel | [03 — Sentinel list](../evidence/checkpoint-02/03-microsoft-sentinel.png) | Sentinel resources visible |
+| Diagnostics | [04 — Diagnostic configuration](../evidence/checkpoint-02/04-diagnostic-settings.png) | Log categories and destination selected |
+| General telemetry | [05 — Query result](../evidence/checkpoint-02/05-log-ingestion-validation.png) | Microsoft Graph activity records present; not proof of sign-in or audit ingestion |
+| `AuditLogs` | [06 — Audit query](../evidence/checkpoint-02/06-auditLogs.png) | **29** events in last 24 hours |
+| `SigninLogs` | [07 — Sign-in query](../evidence/checkpoint-02/07-signinLogs.png) | **122** events in last 24 hours |
+
+**Validation date:** November 8, 2026 (as displayed in the screenshots). Counts are point-in-time observations, not ongoing metrics.
 
 ### Example validation queries
 
@@ -71,23 +74,14 @@ AuditLogs
 
 ## 6. Security outcome and next milestone
 
-**Outcome reported:** An Entra-based lab monitoring foundation using Log Analytics and Microsoft Sentinel, with ingestion configuration completed as part of Checkpoint 2.
+**Validated outcome:** The Entra monitoring foundation was deployed. Dated KQL queries demonstrate that the selected workspace contained 122 sign-in and 29 directory audit events within the measured 24-hour window.
 
-**Evidence still needed:** Screenshots and actual query output showing the intended records were received. Once collected, update this report from “reported” to “validated,” with dates and artifacts.
+**Remaining validation:** Detection rule/alert effectiveness, sustained collection and category completeness, retention, role permissions, and cost controls. Two similarly named workspaces (`blastradiulg` and `BlastRadius`) appear in the screenshots; verify their respective purposes before any consolidation or deletion.
 
 **Next milestone:** Checkpoint 3 — Attack Box Build. Keep offensive simulations inside the authorized training tenant and document technical controls and test outcomes without publishing credentials or sensitive infrastructure details.
 
-## 7. Evidence file names
+## 7. Evidence and code
 
-```text
-evidence/
-  checkpoint-02-01-entra-tenant.png
-  checkpoint-02-02-log-analytics-workspace.png
-  checkpoint-02-03-microsoft-sentinel.png
-  checkpoint-02-04-diagnostic-settings.png
-  checkpoint-02-05-log-validation.png
-  checkpoint-02-06-auditLogs.png
-  checkpoint-02-07-signinLogs.png
-```
+All seven screenshots are linked in the validation table above and available under [`evidence/checkpoint-02/`](../evidence/checkpoint-02/). Reusable queries: [`validate-signins.kql`](../queries/validate-signins.kql) and [`validate-audits.kql`](../queries/validate-audits.kql).
 
-Attach only the screenshots that materially prove the milestone. A few clear, sanitized pieces of evidence are better than a large collection of unannotated portal screenshots.
+**Scope note:** Nonzero event counts validate those log tables for the tested period. They do not establish alert effectiveness or production readiness.

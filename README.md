@@ -26,21 +26,21 @@ See [Architecture & design rationale](architecture/identity-monitoring.md).
 
 | Milestone | Engineering outcome | Status | Report |
 |---|---|---|---|
-| Checkpoint 2 — Range Setup | Entra ID tenant, Log Analytics workspace, Sentinel integration, log-routing work | **Completed (self-reported)**; supporting evidence pending | [Technical](reports/2026-11-08-checkpoint-02-technical.md) · [Executive](reports/2026-11-08-checkpoint-02-ciso.md) |
+| Checkpoint 2 — Range Setup | Entra ID tenant, Log Analytics workspace, Sentinel integration, log-routing work | **Validated — log ingestion** (November 8, 2026); Sentinel detections not yet tested | [Technical](reports/2026-11-08-checkpoint-02-technical.md) · [Executive](reports/2026-11-08-checkpoint-02-ciso.md) |
 | Checkpoint 3 — Attack Box Build | Authorized test environment and tooling | Not started / not documented | — |
 | Checkpoints 4–6 — Identity Threats | Controlled identity security simulations and defensive findings | Not started / not documented | — |
 | Checkpoints 7–12 — Governance and Defense | Identity lifecycle, Zero Trust, non-human identities, AD, Okta | Not started / not documented | — |
 | Checkpoint 13 — Capstone | Investigation, remediation and final security report | Not started / not documented | — |
 
-> **Evidence standard:** A lab owner reporting completion is different from independently validated results. Screenshots, KQL outputs and test dates will be added only after capture and redaction. The presence of Microsoft Sentinel alone does not demonstrate full detection coverage.
+> **Evidence standard:** Dated KQL screenshots from November 8, 2026 show **122 `SigninLogs` events** and **29 `AuditLogs` events** during a 24-hour query window. This verifies records were queryable in the selected monitoring workspace; it does not prove full log coverage, continued collection, or alert effectiveness.
 
 ## Featured milestone: Checkpoint 2
 
 **Challenge:** Identity security investigations depend on identity event visibility. Without a functioning telemetry pipeline, monitoring and incident-response exercises are limited.
 
-**Implementation (reported):** Established the Entra ID lab, built a Log Analytics workspace, enabled Microsoft Sentinel, and completed Entra identity log-routing exercises.
+**Implementation:** Established the Entra ID lab, built a Log Analytics workspace, enabled Microsoft Sentinel, and completed Entra identity log-routing exercises.
 
-**Outcome:** An identity-monitoring foundation for subsequent controlled exercises. Direct proof of event ingestion and detection validation is still being collected.
+**Outcome:** The deployed monitoring foundation has verified sign-in and audit log ingestion. Detection rules and alert generation remain untested.
 
 **Technical artifacts:**
 
@@ -48,7 +48,9 @@ See [Architecture & design rationale](architecture/identity-monitoring.md).
 - [Checkpoint 2 executive security update](reports/2026-11-08-checkpoint-02-ciso.md)
 - [Sign-in telemetry validation query](queries/validate-signins.kql)
 - [Audit telemetry validation query](queries/validate-audits.kql)
-- [Evidence standard](evidence/README.md)
+- [Checkpoint 2 evidence directory](evidence/checkpoint-02/)
+- [Sign-in events — 122 recorded](evidence/checkpoint-02/07-signinLogs.png)
+- [Audit events — 29 recorded](evidence/checkpoint-02/06-auditLogs.png)
 
 ## Documentation standard
 
