@@ -40,12 +40,12 @@ The owner reported completing Checkpoint 2. The following **verification artifac
 
 | Test | Evidence to save | Verification status |
 |---|---|---|
-| Tenant ready | Sanitized Entra Overview screenshot | Pending attachment |
-| Workspace deployed | Log Analytics workspace Overview screenshot | Pending attachment |
-| Sentinel connected | Microsoft Sentinel workspace view | Pending attachment |
-| Diagnostic routing saved | Entra diagnostic settings showing destination and categories | Pending attachment |
-| Sign-in records arriving | Dated `SigninLogs` query with non-empty results | Pending attachment |
-| Audit records arriving | Dated `AuditLogs` query with non-empty results | Pending attachment |
+| Tenant ready | Sanitized Entra Overview screenshot |  Screenshot attached |
+| Workspace deployed | Log Analytics workspace Overview screenshot |  Screenshot attached |
+| Sentinel connected | Microsoft Sentinel workspace view |  Screenshot attached |
+| Diagnostic routing saved | Entra diagnostic settings showing destination and categories |  Screenshot attached |
+| Sign-in records arriving | Dated `SigninLogs` query with non-empty results |  Screenshot attached |
+| Audit records arriving | Dated `AuditLogs` query with non-empty results |  Screenshot attached |
 
 ### Example validation queries
 
@@ -77,16 +77,17 @@ AuditLogs
 
 **Next milestone:** Checkpoint 3 — Attack Box Build. Keep offensive simulations inside the authorized training tenant and document technical controls and test outcomes without publishing credentials or sensitive infrastructure details.
 
-## 7. Suggested evidence file names
+## 7. Evidence file names
 
 ```text
 evidence/
-  checkpoint-02-entra-overview-redacted.png
-  checkpoint-02-workspace-overview-redacted.png
-  checkpoint-02-sentinel-connected-redacted.png
-  checkpoint-02-diagnostic-settings-redacted.png
-  checkpoint-02-signinlogs-results-redacted.png
-  checkpoint-02-auditlogs-results-redacted.png
+  checkpoint-02-01-entra-tenant.png
+  checkpoint-02-02-log-analytics-workspace.png
+  checkpoint-02-03-microsoft-sentinel.png
+  checkpoint-02-04-diagnostic-settings.png
+  checkpoint-02-05-log-validation.png
+  checkpoint-02-06-auditLogs.png
+  checkpoint-02-07-signinLogs.png
 ```
 
 Attach only the screenshots that materially prove the milestone. A few clear, sanitized pieces of evidence are better than a large collection of unannotated portal screenshots.
