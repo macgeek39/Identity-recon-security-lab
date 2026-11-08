@@ -1,0 +1,6 @@
+// Checkpoint 2 — Confirm recent sign-in events are available in Log Analytics.
+// Validate against synthetic lab activity; redact user identifiers in screenshots.
+// A nonzero result is evidence of records in the time window, not proof of full coverage.
+SigninLogs
+| where TimeGenerated >= ago(24h)
+| summarize EventCount=count(), FirstEvent=min(TimeGenerated), LastEvent=max(TimeGenerated)
