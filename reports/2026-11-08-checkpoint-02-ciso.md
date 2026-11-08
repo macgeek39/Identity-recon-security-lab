@@ -28,7 +28,7 @@ This milestone prepares the range for future identity threat simulations and def
 | Azure Log Analytics workspace | Centralized identity log collection and query platform | Reported complete |
 | Microsoft Sentinel | Security monitoring and investigation layer | Reported complete |
 | Entra diagnostic routing | Sends selected identity event categories to the workspace | Reported configured |
-| End-to-end log-query evidence | Demonstrates events arriving and being queryable | Screenshot/output not yet attached |
+| End-to-end log-query evidence | Demonstrates events arriving and being queryable | Screenshot attached |
 
 ## Risks and limitations
 
