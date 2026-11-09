@@ -1,65 +1,93 @@
-# Identity Recon | Identity Security Monitoring & Defense Lab
+# Identity Recon | IAM Security Assessment & Defense Lab
 
-**Owner:** Taiwei Ko  
-**Focus:** Microsoft Entra ID · Azure Monitor / Log Analytics · Microsoft Sentinel · Identity governance and Zero Trust  
-**Environment:** Isolated, authorized educational tenant — **not production**
+**Author:** Taiwei Ko  
+**Focus:** Microsoft Entra ID · Identity security · OAuth/token security · Azure Log Analytics · Microsoft Sentinel  
+**Environment:** Personally controlled, authorized training tenant — **not a production environment**  
+**Project status:** In progress · Checkpoints 2–5 documented  
+**Last updated:** November 9, 2026
 
 ## Project overview
 
-This independent IAM security portfolio documents the engineering decisions, monitoring controls, tests, and investigation results from hands-on identity-security lab exercises. The goal is to demonstrate **what I built, why it matters, and how I validated it**—not to reproduce course instructions.
+Identity Recon is a hands-on **identity and access management (IAM) security portfolio** documenting how I build an identity lab, assess common identity attack paths, and translate technical observations into engineering recommendations and leadership-ready reports.
 
-The lab begins with a Microsoft Entra ID tenant and centralized identity telemetry. Later milestones will explore identity risks, governance controls, and defensive investigations within an authorized training environment.
+My goal is to demonstrate **what I configured, what I tested, what the results support, and which controls can reduce the risk**—rather than reproduce course instructions. Exercises use a controlled Microsoft Entra ID tenant and synthetic identities.
 
-## Architecture
+> **Evidence standard:** "Validated" means a specific result is supported by an artifact. "Completed (self-reported)" means I performed the exercise, but the exact results or defender telemetry have not been independently reviewed. This lab does not represent a production security assessment.
+
+## Project architecture
 
 ```mermaid
 flowchart LR
-    E[Microsoft Entra ID<br/>Lab identities / activity] --> D[Diagnostic settings<br/>Selected event categories]
-    D --> L[Azure Log Analytics<br/>Ingest / retain / query]
-    L --> S[Microsoft Sentinel<br/>Security investigation]
-    S --> R[Investigation evidence<br/>Remediation / reporting]
+    V[VMware Ubuntu assessment VM] -->|Authorized lab exercises| E[Microsoft Entra ID lab tenant]
+    V -->|Scoped, authenticated API testing| G[Microsoft Graph]
+    E --> G
+    E --> D[Entra diagnostic settings]
+    D --> L[Azure Log Analytics workspace]
+    L --> S[Microsoft Sentinel]
+    S --> R[Investigation and reporting]
 ```
 
-See [Architecture & design rationale](architecture/identity-monitoring.md).
+**Assessment tooling:** VMware, Ubuntu, Docker, Azure CLI, ROADrecon, AzureHound, and BloodHound. Installed tooling does not imply every tool was used in every checkpoint. For monitoring architecture details, see [Architecture & design rationale](architecture/identity-monitoring.md).
 
-## Progress
+## Checkpoint progress
 
-| Milestone | Engineering outcome | Status | Report |
+| Milestone | Work completed / focus | Evidence status | Reports |
 |---|---|---|---|
-| Checkpoint 2 — Range Setup | Entra ID tenant, Log Analytics workspace, Sentinel integration, log-routing work | **Validated — log ingestion** (November 8, 2026); Sentinel detections not yet tested | [Technical](reports/2026-11-08-checkpoint-02-technical.md) · [Executive](reports/2026-11-08-checkpoint-02-ciso.md) |
-| Checkpoint 3 — Attack Box Build | Authorized test environment and tooling | Not started / not documented | — |
-| Checkpoints 4–6 — Identity Threats | Controlled identity security simulations and defensive findings | Not started / not documented | — |
-| Checkpoints 7–12 — Governance and Defense | Identity lifecycle, Zero Trust, non-human identities, AD, Okta | Not started / not documented | — |
-| Checkpoint 13 — Capstone | Investigation, remediation and final security report | Not started / not documented | — |
+| **2 — Range Setup** | Entra ID tenant; Log Analytics; Microsoft Sentinel; diagnostic routing; log ingestion | **Validated:** sign-in and audit records queryable on Nov. 8, 2026 | [Technical](reports/2026-11-08-checkpoint-02-technical.md) · [CISO update](reports/2026-11-08-checkpoint-02-ciso.md) |
+| **3 — Attack Box Build** | VMware Ubuntu VM prepared with Docker, Azure CLI, ROADrecon, AzureHound and BloodHound | **Setup completed (self-reported)**; no screenshot requirement; tool functionality not independently verified | [Technical](reports/2026-11-08-checkpoint-03-technical.md) |
+| **4 — Recon & Initial Access** | Seeded 10 synthetic identities; studied unauthenticated tenant discovery; performed lab initial-access exercises; modeled credential stuffing | **Exercises documented:** individual authentication results and defender detections not independently verified | [Technical](reports/2026-11-08-checkpoint-04-technical.md) · [Executive](reports/2026-11-08-checkpoint-04-executive.md) |
+| **5 — Post-Exploitation** | ROADrecon authenticated exploration; device-code phishing simulation; bearer-token reuse for scoped Graph requests | **Completed (self-reported):** exact permissions, token behavior and detections not independently verified | [Technical](reports/2026-11-09-checkpoint-05-technical.md) · [Executive](reports/2026-11-09-checkpoint-05-executive.md) |
+| **6 — Escalation & Persistence** | Application consent, service principals, privilege boundaries and persistence controls | Upcoming | — |
+| **7–12 — Governance & Defense** | Identity lifecycle, access reviews, Conditional Access, PIM, non-human identities, AD and Okta | Upcoming | — |
+| **13 — Capstone** | Incident investigation, remediation and final assessment | Upcoming | — |
 
-> **Evidence standard:** Dated KQL screenshots from November 8, 2026 show **122 `SigninLogs` events** and **29 `AuditLogs` events** during a 24-hour query window. This verifies records were queryable in the selected monitoring workspace; it does not prove full log coverage, continued collection, or alert effectiveness.
+> **Publishing note:** The Checkpoint 5 report links become active once the two accompanying Checkpoint 5 Markdown files are uploaded to `reports/`. Checkpoints 2–4 reports are already present in the GitHub repository.
 
-## Featured milestone: Checkpoint 2
+## Featured result — Checkpoint 2: Identity monitoring
 
-**Challenge:** Identity security investigations depend on identity event visibility. Without a functioning telemetry pipeline, monitoring and incident-response exercises are limited.
+**Problem:** Identity investigations depend on reliable authentication and directory audit telemetry. Without log ingestion, monitoring and incident-response tests lack evidence.
 
-**Implementation:** Established the Entra ID lab, built a Log Analytics workspace, enabled Microsoft Sentinel, and completed Entra identity log-routing exercises.
+**Implementation:** Established a lab Entra tenant, deployed an Azure Log Analytics workspace, enabled Microsoft Sentinel, and configured Entra diagnostic log routing.
 
-**Outcome:** The deployed monitoring foundation has verified sign-in and audit log ingestion. Detection rules and alert generation remain untested.
+**Observed validation (November 8, 2026):**
 
-**Technical artifacts:**
+| Log source | Events in queried 24-hour period | Evidence |
+|---|---:|---|
+| `SigninLogs` | **122** | [Sign-in query screenshot](evidence/checkpoint-02/07-signinLogs.png) |
+| `AuditLogs` | **29** | [Audit query screenshot](evidence/checkpoint-02/06-auditLogs.png) |
 
-- [Checkpoint 2 implementation report](reports/2026-11-08-checkpoint-02-technical.md)
-- [Checkpoint 2 executive security update](reports/2026-11-08-checkpoint-02-ciso.md)
-- [Sign-in telemetry validation query](queries/validate-signins.kql)
-- [Audit telemetry validation query](queries/validate-audits.kql)
-- [Checkpoint 2 evidence directory](evidence/checkpoint-02/)
-- [Sign-in events — 122 recorded](evidence/checkpoint-02/07-signinLogs.png)
-- [Audit events — 29 recorded](evidence/checkpoint-02/06-auditLogs.png)
+Additional [Checkpoint 2 screenshots](evidence/checkpoint-02/) show tenant, workspace, Sentinel and diagnostic configuration. The corresponding read-only queries are available in [validate-signins.kql](queries/validate-signins.kql) and [validate-audits.kql](queries/validate-audits.kql).
 
-## Documentation standard
+**Interpretation:** These historical results demonstrate that both log types were queryable in the selected workspace. They **do not** prove complete event coverage, ongoing ingestion, analytic-rule alerting or detection effectiveness.
 
-1. **Executive summary** — outcome, risk, limitations, recommended next action.
-2. **Technical report** — architecture, configuration, testing, screenshots / outputs.
-3. **Reusable artifacts** — queries and other safe, sanitized engineering deliverables.
+## Security assessment takeaways — Checkpoints 4–5
 
-See [Reporting standards](reports/README.md). This portfolio is not affiliated with or endorsed by Microsoft or Cybernoia Labs.
+| Area | Engineering takeaway | Defensive consideration |
+|---|---|---|
+| **Unauthenticated discovery** | Public OpenID Connect metadata supports legitimate federation and client discovery; its availability is not by itself a vulnerability | Separate intended protocol metadata from actionable exposure |
+| **Password spraying / credential stuffing** | Weak or reused passwords can enable initial-access attempts against synthetic accounts; credential-stuffing breach intelligence was **fictional** in this portfolio | Strong password protections, phishing-resistant MFA, smart lockout, Conditional Access and monitoring |
+| **Authenticated enumeration** | A compromised identity may inspect directory information within its granted permissions | Least privilege, application permissions review and auditability |
+| **Device-code phishing** | A genuine Microsoft sign-in page does not make the surrounding request trustworthy | Restrict device-code flow where not needed; train users to verify client/application intent |
+| **Bearer-token reuse** | A valid bearer token may authorize scoped API calls without another interactive password or MFA prompt | Endpoint/token protection, limited permissions, revocation procedures, and session-aware controls |
 
-## Safety and confidentiality
+**Important limitations:** Checkpoint 4 does not establish a verified number of compromised accounts. Checkpoint 5 results are based on the lab owner's report and are not independent proof of token scope, privilege escalation or detection outcomes. Token reuse should **not** be described as universally undetectable or as bypassing every MFA and access control.
 
-Only test assets that belong to the authorized lab. Never commit credentials, bearer tokens, secrets, unredacted personal data, or live infrastructure details. See [SECURITY.md](SECURITY.md).
+## Reports and technical artifacts
+
+- **Engineering reports** document objectives, scope, implementation, observations, risk and validation limits; see [reports/](reports/).
+- **Executive security updates** summarize risk, control implications and next actions for a CISO or security leader.
+- **Evidence** is stored by checkpoint under [evidence/](evidence/), with sensitive values redacted before publication.
+- **Queries** currently contain Checkpoint 2 ingestion validation artifacts only. No new KQL files are required for Checkpoints 4 or 5.
+
+## Next priorities
+
+1. Review the Checkpoint 4–5 reports for factual accuracy, especially which results were directly observed versus modeled.
+2. Validate whether Sentinel recorded the simulated activity and whether any defensive controls blocked or alerted on it.
+3. Confirm which monitoring workspace is active and whether duplicate resources, log retention or ingestion charges need attention.
+4. Continue to **Checkpoint 6 — Escalation & Persistence**, documenting privilege boundaries and mitigations within the authorized lab.
+
+## Authorization and confidentiality
+
+All testing is restricted to my own authorized lab environment and synthetic identities. This repository excludes active passwords, session or bearer tokens, device codes, working phishing messages, credential dumps, sensitive directory exports, and reusable attack automation. Supporting screenshots and reports must be sanitized before being made public.
+
+See [SECURITY.md](SECURITY.md). This educational portfolio is not affiliated with or endorsed by Microsoft or Cybernoia Labs.
